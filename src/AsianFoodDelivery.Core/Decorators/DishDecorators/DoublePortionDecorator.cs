@@ -10,7 +10,7 @@ public class DoublePortionDecorator : IMenuItemDecorator
     public Guid Id => WrappedItem.Id;
     public string Name
     {
-        get => $"Double Portion {WrappedItem.Name}";
+        get => $"двойная порция {WrappedItem.Name}";
         set => WrappedItem.Name = value;
     }
 
