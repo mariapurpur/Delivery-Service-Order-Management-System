@@ -82,6 +82,12 @@ public class Money : IEquatable<Money?>
         return Amount.GetHashCode();
     }
 
+    public int CompareTo(Money? other)
+{
+    if (other is null) return 1;
+    return this.Amount.CompareTo(other.Amount);
+}
+
     public override string ToString()
     {
         return $"{Amount} {CurrencyCode}";

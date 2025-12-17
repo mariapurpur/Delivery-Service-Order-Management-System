@@ -8,7 +8,7 @@ public class User
     public string Name { get; set; }
     public Address Address { get; set; }
 
-    public User(string name, string email, Address address)
+    public User(string name, Address address)
     {
         Id = Guid.NewGuid();
         Name = name ?? throw new ArgumentNullException(nameof(name));
