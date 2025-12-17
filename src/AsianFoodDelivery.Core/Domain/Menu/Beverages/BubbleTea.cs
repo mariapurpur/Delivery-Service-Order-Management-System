@@ -8,8 +8,8 @@ public class BubbleTea : MenuItemBase
     public string Flavor { get; set; }
     public bool HasBoba { get; set; }
 
-    public BubbleTea(string flavor, bool hasBoba, Money price, bool isAvailable = true)
-        : base($"бабл ти ({flavor})", price, isAvailable)
+    public BubbleTea(string flavor, bool hasBoba, Money price, string description = "", bool isAvailable = true)
+        : base($"бабл ти ({flavor})", description, price, isAvailable)
     {
         Flavor = flavor ?? throw new ArgumentNullException(nameof(flavor));
         HasBoba = hasBoba;

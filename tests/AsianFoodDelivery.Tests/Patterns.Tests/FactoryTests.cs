@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using AsianFoodDelivery.Core.Domain.Entities;
 using AsianFoodDelivery.Core.Domain.Menu.Beverages;
 using AsianFoodDelivery.Core.Domain.Menu.Combos;
@@ -46,15 +48,18 @@ public class FactoryTests
         var price = new Money(250);
         var flavor = "манго";
         var hasBoba = true;
+        var description = "";
 
-        var item = _menuItemFactory.CreateMenuItem(MenuItemType.BubbleTea, flavor, hasBoba, price);
+        var item = _menuItemFactory.CreateMenuItem(MenuItemType.BubbleTea, flavor, hasBoba, price, description);
 
         Assert.NotNull(item);
         Assert.IsType<BubbleTea>(item);
+        Assert.Contains(flavor, item.Name);
         Assert.Equal(name, item.Name);
         Assert.Equal(price, item.Price);
         Assert.Equal(flavor, ((BubbleTea)item).Flavor);
         Assert.Equal(hasBoba, ((BubbleTea)item).HasBoba);
+        Assert.True(item.IsAvailable);
     }
 
     [Fact]
@@ -63,14 +68,17 @@ public class FactoryTests
         var name = "чаёк";
         var price = new Money(100);
         var type = "чёрный";
+        var description = "";
 
-        var item = _menuItemFactory.CreateMenuItem(MenuItemType.Tea, type, price);
+        var item = _menuItemFactory.CreateMenuItem(MenuItemType.Tea, type, price, description);
 
         Assert.NotNull(item);
         Assert.IsType<Tea>(item);
+        Assert.Contains(type, item.Name);
         Assert.Equal(name, item.Name);
         Assert.Equal(price, item.Price);
         Assert.Equal(type, ((Tea)item).Type);
+        Assert.True(item.IsAvailable);
     }
 
     [Fact]
@@ -80,15 +88,19 @@ public class FactoryTests
         var price = new Money(300);
         var brothType = "куриный";
         var protein = "курица";
+        var description = "";
 
-        var item = _menuItemFactory.CreateMenuItem(MenuItemType.Ramen, brothType, protein, price);
+        var item = _menuItemFactory.CreateMenuItem(MenuItemType.Ramen, brothType, protein, price, description);
 
         Assert.NotNull(item);
         Assert.IsType<Ramen>(item);
+        Assert.Contains(brothType, item.Name);
+        Assert.Contains(protein, item.Name);
         Assert.Equal(name, item.Name);
         Assert.Equal(price, item.Price);
         Assert.Equal(brothType, ((Ramen)item).BrothType);
         Assert.Equal(protein, ((Ramen)item).Protein);
+        Assert.True(item.IsAvailable);
     }
 
     [Fact]
@@ -98,15 +110,19 @@ public class FactoryTests
         var price = new Money(250);
         var type = "запечёные";
         var pieces = 8;
+        var description = "";
 
-        var item = _menuItemFactory.CreateMenuItem(MenuItemType.Sushi, type, pieces, price);
+        var item = _menuItemFactory.CreateMenuItem(MenuItemType.Sushi, type, pieces, price, description);
 
         Assert.NotNull(item);
         Assert.IsType<Sushi>(item);
+        Assert.Contains(type, item.Name);
+        Assert.Contains(pieces.ToString(), item.Name);
         Assert.Equal(name, item.Name);
         Assert.Equal(price, item.Price);
         Assert.Equal(type, ((Sushi)item).Type);
         Assert.Equal(pieces, ((Sushi)item).Pieces);
+        Assert.True(item.IsAvailable);
     }
 
     [Fact]
@@ -120,12 +136,13 @@ public class FactoryTests
         Assert.IsType<BusinessLunch>(item);
         Assert.Equal("бизнес-ланч", item.Name);
         Assert.Equal(price, item.Price);
+        Assert.True(item.IsAvailable);
     }
 
     [Fact]
     public void MenuItemFactory_ArgumentException()
     {
         var exception = Assert.Throws<ArgumentException>(() => _menuItemFactory.CreateMenuItem((MenuItemType)999));
-        Assert.Contains("такого у нас нет...", exception.Message);
+        Assert.Contains("такого у нас в меню нет...", exception.Message);
     }
 }

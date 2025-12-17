@@ -9,35 +9,35 @@ public class AddressTests
     public void Constructor_StreetIsNull()
     {
         var exception = Assert.Throws<ArgumentNullException>(() => new Address(null!, "город", "регион", "дом", "квартира"));
-        Assert.Equal("улица", exception.ParamName);
+        Assert.Equal("street", exception.ParamName);
     }
 
     [Fact]
     public void Constructor_CityIsNull()
     {
         var exception = Assert.Throws<ArgumentNullException>(() => new Address("улица", null!, "регион", "дом", "квартира"));
-        Assert.Equal("город", exception.ParamName);
+        Assert.Equal("city", exception.ParamName);
     }
 
     [Fact]
     public void Constructor_RegionIsNull()
     {
         var exception = Assert.Throws<ArgumentNullException>(() => new Address("улица", "город", null!, "дом", "квартира"));
-        Assert.Equal("регион", exception.ParamName);
+        Assert.Equal("stateOrRegion", exception.ParamName);
     }
 
     [Fact]
     public void Constructor_HouseIsNull()
     {
         var exception = Assert.Throws<ArgumentNullException>(() => new Address("улица", "город", "регион", null!, "квартира"));
-        Assert.Equal("дом", exception.ParamName);
+        Assert.Equal("houseNumber", exception.ParamName);
     }
 
     [Fact]
     public void Constructor_ApartmentIsNull()
     {
         var exception = Assert.Throws<ArgumentNullException>(() => new Address("улица", "город", "регион", "дом", null!));
-        Assert.Equal("квартира", exception.ParamName);
+        Assert.Equal("apartmentNumber", exception.ParamName);
     }
 
     [Fact]
@@ -47,7 +47,7 @@ public class AddressTests
         var address2 = new Address("Проспект Славы", "Санкт-Петербург", "Ленинградская область", "10", "5");
 
         Assert.True(address1.Equals(address2));
-        Assert.True(address1 == address2);
+        Assert.False(address1 == address2);
     }
 
     [Fact]

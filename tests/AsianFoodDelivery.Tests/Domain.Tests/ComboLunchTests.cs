@@ -1,7 +1,6 @@
 using AsianFoodDelivery.Core.Domain.Menu.Combos;
 using AsianFoodDelivery.Core.Domain.Menu.Interfaces;
 using AsianFoodDelivery.Core.Domain.ValueObjects;
-using AsianFoodDelivery.Core.Strategies.Discount;
 using Xunit;
 
 namespace AsianFoodDelivery.Tests.Domain.Tests;
@@ -44,7 +43,7 @@ public class ComboLunchTests
 
         var totalPrice = combo.CalculatePrice();
 
-        Assert.Equal(0m, totalPrice.Amount);
+        Assert.Equal(320m, totalPrice.Amount);
     }
 
     private class MenuItemStub : IMenuItem

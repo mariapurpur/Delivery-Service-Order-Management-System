@@ -11,9 +11,10 @@ public abstract class ComboLunchBase : MenuItemBase, IComboLunch
     protected readonly List<IMenuItem> _items = new();
     public IReadOnlyList<IMenuItem> Items => _items.AsReadOnly();
 
-    protected ComboLunchBase(string name, Money basePrice, bool isAvailable = true)
-        : base(name, basePrice, isAvailable)
+    protected ComboLunchBase(string name, string description, Money basePrice, bool isAvailable = true)
+        : base(name, description, basePrice, isAvailable)
     {
+        Description = description ?? throw new ArgumentNullException(nameof(description));
     }
 
     public virtual void AddItem(IMenuItem item)

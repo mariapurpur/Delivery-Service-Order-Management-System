@@ -9,7 +9,7 @@ public class MoneyTests
     public void Constructor_AmountNegative()
     {
         var exception = Assert.Throws<ArgumentException>(() => new Money(-1));
-        Assert.Contains("отрицательные", exception.Message);
+        Assert.Contains("деньги не могут быть отрицательными((", exception.Message);
     }
 
     [Fact]
@@ -45,13 +45,13 @@ public class MoneyTests
     }
 
     [Fact]
-    public void OperatorSubtract_ResultIsNegative()
+    public void OperatorSubtract_ResultNegative()
     {
         var money1 = new Money(50);
         var money2 = new Money(100);
 
         var exception = Assert.Throws<InvalidOperationException>(() => money1 - money2);
-        Assert.Contains("отрицательные", exception.Message);
+        Assert.Contains("результат не может быть отрицательным", exception.Message);
     }
 
     [Fact]

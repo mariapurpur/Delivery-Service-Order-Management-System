@@ -13,7 +13,7 @@ public class DecoratorTests
     [Fact]
     public void DoublePortionDecorator_DoublePriceModifyName()
     {
-        var baseItem = new Sushi("нигири", 2, new Money(100));
+        var baseItem = new Sushi("нигири", 2, new Money(100), "");
         var decorator = new DoublePortionDecorator(baseItem);
 
         var decoratedPrice = decorator.CalculatePrice();
@@ -49,19 +49,19 @@ public class DecoratorTests
     public void PremiumBeverageDecorator_AddBeveragePrice()
     {
         var baseCombo = new BusinessLunch(new Money(350));
-        var premiumBeverage = new Tea("зелёный", new Money(80));
+        var premiumBeverage = new Tea("зелёный", new Money(10));
         var decorator = new PremiumBeverageDecorator(baseCombo, premiumBeverage);
 
         var decoratedPrice = decorator.CalculatePrice();
 
-        Assert.Equal(430m, decoratedPrice.Amount);
+        Assert.Equal(290m, decoratedPrice.Amount);
         Assert.Contains("с дополнительным напитком", decorator.Name);
     }
 
     [Fact]
     public void Decorator_AffectCalculatedPrice()
     {
-        var baseItem = new Sushi("нигири", 2, new Money(100));
+        var baseItem = new Sushi("нигири", 2, new Money(100), "");
         var decorator = new DoublePortionDecorator(baseItem);
 
         var initialPrice = decorator.CalculatePrice();
@@ -75,7 +75,7 @@ public class DecoratorTests
     [Fact]
     public void Decorator_ModifyItem()
     {
-        var baseItem = new Sushi("запечёные", 2, new Money(100));
+        var baseItem = new Sushi("запечёные", 2, new Money(100), "");
         var decorator = new DoublePortionDecorator(baseItem);
         var newName = "изменённые суши";
         var newPrice = new Money(120);

@@ -14,8 +14,9 @@ public class MenuItemTests
         var name = "тестовая позиция";
         var price = new Money(100);
         var isAvailable = true;
+        var description = "";
 
-        var menuItem = new MenuItemStub(name, price, isAvailable);
+        var menuItem = new MenuItemStub(name, description, price, isAvailable);
 
         Assert.NotEqual(Guid.Empty, menuItem.Id);
         Assert.Equal(name, menuItem.Name);
@@ -27,7 +28,8 @@ public class MenuItemTests
     public void MenuItemBase_CalculatePrice()
     {
         var price = new Money(150);
-        var menuItem = new MenuItemStub("позиция", price);
+        var description = "";
+        var menuItem = new MenuItemStub("позиция", description, price);
 
         var calculatedPrice = menuItem.CalculatePrice();
 
@@ -37,13 +39,14 @@ public class MenuItemTests
     [Fact]
     public void Sushi_ConstructorProperties()
     {
-        var type = "крабовые";
+        var type = "крабовый";
         var pieces = 8;
         var price = new Money(200);
+        var description = "";
 
-        var sushi = new Sushi(type, pieces, price);
+        var sushi = new Sushi(type, pieces, price, description);
 
-        Assert.Equal($"{type} суши, 8 шт.", sushi.Name);
+        Assert.Equal($"{type} суши-сет на 8 шт.", sushi.Name);
         Assert.Equal(price, sushi.Price);
         Assert.Equal(type, sushi.Type);
         Assert.Equal(pieces, sushi.Pieces);
@@ -55,8 +58,9 @@ public class MenuItemTests
     {
         var type = "зелёный";
         var price = new Money(80);
+        var description = "";
 
-        var tea = new Tea(type, price);
+        var tea = new Tea(type, price, description);
 
         Assert.Equal($"чай ({type})", tea.Name);
         Assert.Equal(price, tea.Price);
@@ -66,8 +70,8 @@ public class MenuItemTests
 
     private class MenuItemStub : MenuItemBase
     {
-        public MenuItemStub(string name, Money price, bool isAvailable = true)
-            : base(name, price, isAvailable)
+        public MenuItemStub(string name, string description, Money price, bool isAvailable = true)
+            : base(name, description, price, isAvailable)
         {
         }
     }

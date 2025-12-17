@@ -46,7 +46,7 @@ public class OrderTests
     public void AddItem_NullException()
     {
         var exception = Assert.Throws<ArgumentNullException>(() => _order.AddItem(null!));
-        Assert.Equal("позиция", exception.ParamName);
+        Assert.Equal("item", exception.ParamName);
     }
 
     [Fact]

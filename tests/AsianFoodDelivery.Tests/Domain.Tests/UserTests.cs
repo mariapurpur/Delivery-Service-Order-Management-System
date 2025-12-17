@@ -11,14 +11,14 @@ public class UserTests
         var address = new Address("Проспект Славы", "Санкт-Петербург", "Ленинградская область", "10", "5");
 
         var exception = Assert.Throws<ArgumentNullException>(() => new User(null!, address));
-        Assert.Equal("имя", exception.ParamName);
+        Assert.Equal("name", exception.ParamName);
     }
 
     [Fact]
     public void Constructor_AddressIsNull()
     {
         var exception = Assert.Throws<ArgumentNullException>(() => new User("Василий Пупкин", null!));
-        Assert.Equal("адрес", exception.ParamName);
+        Assert.Equal("address", exception.ParamName);
     }
 
     [Fact]

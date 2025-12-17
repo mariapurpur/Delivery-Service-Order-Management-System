@@ -7,8 +7,8 @@ public class Tea : MenuItemBase
 {
     public string Type { get; set; }
 
-    public Tea(string type, Money price, bool isAvailable = true)
-        : base($"чай ({type})", price, isAvailable)
+    public Tea(string type, Money price, string description = "", bool isAvailable = true)
+        : base($"чай ({type})", description, price, isAvailable)
     {
         Type = type ?? throw new ArgumentNullException(nameof(type));
     }
