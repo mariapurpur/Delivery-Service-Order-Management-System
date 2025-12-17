@@ -3,11 +3,11 @@ using AsianFoodDelivery.Core.Domain.ValueObjects;
 
 namespace AsianFoodDelivery.Core.Domain.Menu.Beverages;
 
-public class GreenTea : MenuItemBase
+public class Tea : MenuItemBase
 {
     public string Type { get; set; }
 
-    public GreenTea(string type, Money price, bool isAvailable = true)
+    public Tea(string type, Money price, bool isAvailable = true)
         : base($"чай ({type})", price, isAvailable)
     {
         Type = type ?? throw new ArgumentNullException(nameof(type));

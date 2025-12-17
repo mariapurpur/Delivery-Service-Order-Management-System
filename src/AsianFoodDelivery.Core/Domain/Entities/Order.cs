@@ -1,6 +1,5 @@
 using AsianFoodDelivery.Core.Orders;
 using AsianFoodDelivery.Core.Orders.Interfaces;
-using AsianFoodDelivery.Core.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
