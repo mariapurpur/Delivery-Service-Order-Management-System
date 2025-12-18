@@ -1,5 +1,7 @@
 using AsianFoodDelivery.Core.Orders;
 using AsianFoodDelivery.Core.Orders.Interfaces;
+using AsianFoodDelivery.Core.States;
+using AsianFoodDelivery.Core.States.OrderStates;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +15,11 @@ public class Order : IOrder
     public Address DeliveryAddress { get; set; }
     private readonly List<OrderItem> _items = new();
     public IReadOnlyList<IOrderItem> Items => _items.AsReadOnly().Cast<IOrderItem>().ToList();
-    public Orders.OrderStatus Status { get; private set; }
-    public Orders.OrderType Type { get; set; }
+    public OrderStatus Status { get; private set; }
+    public OrderType Type { get; set; }
     public DateTime CreatedAt { get; }
     public DateTime? DeliveredAt { get; private set; }
+    private readonly OrderStateContext _stateContext;
 
     public Order(User customer, Address deliveryAddress, Orders.OrderType type)
     {
@@ -24,8 +27,10 @@ public class Order : IOrder
         Customer = customer ?? throw new ArgumentNullException(nameof(customer));
         DeliveryAddress = deliveryAddress ?? throw new ArgumentNullException(nameof(deliveryAddress));
         Type = type;
-        Status = Orders.OrderStatus.New;
+        Status = OrderStatus.New;
         CreatedAt = DateTime.UtcNow;
+
+        _stateContext = new OrderStateContext(new NewState());
     }
 
     public void AddItem(IOrderItem item)
@@ -60,7 +65,7 @@ public class Order : IOrder
     public void UpdateStatus(Orders.OrderStatus newStatus)
     {
         Status = newStatus;
-        if (newStatus == Orders.OrderStatus.Delivered)
+        if (newStatus == OrderStatus.Delivered)
         {
             DeliveredAt = DateTime.UtcNow;
         }
