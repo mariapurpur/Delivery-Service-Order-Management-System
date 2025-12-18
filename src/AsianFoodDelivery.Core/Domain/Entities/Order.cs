@@ -1,3 +1,5 @@
+using AsianFoodDelivery.Core.Observers;
+using AsianFoodDelivery.Core.Observers.Interfaces;
 using AsianFoodDelivery.Core.Orders;
 using AsianFoodDelivery.Core.Orders.Interfaces;
 using AsianFoodDelivery.Core.States;
@@ -8,7 +10,7 @@ using System.Linq;
 
 namespace AsianFoodDelivery.Core.Domain.Entities;
 
-public class Order : IOrder
+public class Order : IOrder, IOrderSubject
 {
     public Guid Id { get; }
     public User Customer { get; }
@@ -19,6 +21,7 @@ public class Order : IOrder
     public OrderType Type { get; set; }
     public DateTime CreatedAt { get; }
     public DateTime? DeliveredAt { get; private set; }
+    private readonly OrderSubject _subject;
     private readonly OrderStateContext _stateContext;
 
     public Order(User customer, Address deliveryAddress, Orders.OrderType type)
@@ -30,6 +33,7 @@ public class Order : IOrder
         Status = OrderStatus.New;
         CreatedAt = DateTime.UtcNow;
 
+        _subject = new OrderSubject(this);
         _stateContext = new OrderStateContext(new NewState());
     }
 
@@ -69,6 +73,8 @@ public class Order : IOrder
         {
             DeliveredAt = DateTime.UtcNow;
         }
+
+        _subject.Notify();
     }
 
     public int GetItemCount()
@@ -79,5 +85,20 @@ public class Order : IOrder
     public bool IsEmpty()
     {
         return _items.Count == 0;
+    }
+
+    public void Attach(IOrderObserver observer)
+    {
+        _subject.Attach(observer);
+    }
+
+    public void Detach(IOrderObserver observer)
+    {
+        _subject.Detach(observer);
+    }
+
+    public void Notify()
+    {
+        _subject.Notify();
     }
 }
