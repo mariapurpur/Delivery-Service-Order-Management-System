@@ -1,6 +1,7 @@
 using AsianFoodDelivery.Core.Domain.Entities;
 using AsianFoodDelivery.Core.Orders;
 using AsianFoodDelivery.Core.Domain.ValueObjects;
+using AsianFoodDelivery.Core.Domain.Menu.Interfaces;
 using System;
 using Xunit;
 
@@ -34,7 +35,7 @@ public class OrderTests
     [Fact]
     public void AddItem_AddItem()
     {
-        var item = new OrderItem(new Money(100), 2);
+        var item = new OrderItem(new MenuItemStub(new Money(100)), 2);
 
         _order.AddItem(item);
 
@@ -52,7 +53,7 @@ public class OrderTests
     [Fact]
     public void RemoveItem_RemoveItemFromList()
     {
-        var item = new OrderItem(new Money(100), 2);
+        var item = new OrderItem(new MenuItemStub(new Money(100)), 2);
         _order.AddItem(item);
 
         var result = _order.RemoveItem(item);
@@ -64,8 +65,8 @@ public class OrderTests
     [Fact]
     public void RemoveItem_ItemIsNotFound()
     {
-        var item1 = new OrderItem(new Money(100), 2);
-        var item2 = new OrderItem(new Money(50), 1);
+        var item1 = new OrderItem(new MenuItemStub(new Money(100)), 2);
+        var item2 = new OrderItem(new MenuItemStub(new Money(50)), 1);
         _order.AddItem(item1);
 
         var result = _order.RemoveItem(item2);
@@ -85,8 +86,8 @@ public class OrderTests
     [Fact]
     public void CalculateTotalCost_MultipleItems()
     {
-        var item1 = new OrderItem(new Money(100), 2);
-        var item2 = new OrderItem(new Money(50), 3);
+        var item1 = new OrderItem(new MenuItemStub(new Money(100)), 2);
+        var item2 = new OrderItem(new MenuItemStub(new Money(50)), 3);
         _order.AddItem(item1);
         _order.AddItem(item2);
 
@@ -116,8 +117,8 @@ public class OrderTests
     [Fact]
     public void GetItemCount_ReturnCount()
     {
-        var item1 = new OrderItem(new Money(100), 2);
-        var item2 = new OrderItem(new Money(50), 1);
+        var item1 = new OrderItem(new MenuItemStub(new Money(100)), 2);
+        var item2 = new OrderItem(new MenuItemStub(new Money(50)), 1);
         _order.AddItem(item1);
         _order.AddItem(item2);
 
@@ -137,11 +138,30 @@ public class OrderTests
     [Fact]
     public void IsEmpty_HasItems()
     {
-        var item = new OrderItem(new Money(100), 2);
+        var item = new OrderItem(new MenuItemStub(new Money(100)), 2);
         _order.AddItem(item);
 
         var isEmpty = _order.IsEmpty();
 
         Assert.False(isEmpty);
+    }
+
+    private class MenuItemStub : IMenuItem
+    {
+        public Guid Id { get; } = Guid.NewGuid();
+        public string Name { get; set; } = "тестовая позиция";
+        public string Description { get; set; } = "";
+        public Money Price { get; set; }
+        public bool IsAvailable { get; set; } = true;
+
+        public MenuItemStub(Money price)
+        {
+            Price = price;
+        }
+
+        public Money CalculatePrice()
+        {
+            return Price;
+        }
     }
 }
