@@ -11,7 +11,6 @@ public class MenuItemFactory : IMenuItemFactory
 {
     public IMenuItem CreateMenuItem(MenuItemType itemType, params object[] parameters)
     {
-
         Type concreteType = itemType switch
         {
             MenuItemType.BubbleTea => typeof(BubbleTea),
